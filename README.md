@@ -126,15 +126,3 @@ MIT License
 ````
 
 ---
-
-## 📌 What to Do Now
-
-1. Copy the above into `README.md`
-2. Update `YOUR_USERNAME` with your actual GitHub username
-3. Commit & push it:
-
-```bash
-git add README.md
-git commit -m "Add complete README documentation"
-git push
-````

@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "portswiggerlab"
+version = "0.1.0"
+description = "PortSwigger Lab Automation Tool"
+authors = [
+    { name="Sneh", email="you@example.com" }
+]
+dependencies = ["requests", "beautifulsoup4"]
+requires-python = ">=3.7"
+
+[project.scripts]
+portswiggerlab = "portswiggerlab.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]

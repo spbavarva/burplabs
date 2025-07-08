@@ -122,7 +122,3 @@ If you like it, give it a ⭐ on GitHub!
 ## 📜 License
 
 MIT License
-
-````
-
----

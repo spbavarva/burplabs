@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+LAB_NAME = "SQL injection vulnerability allowing login bypass"
+
 def get_csrf_token(session, url, proxies=None):
     r = session.get(url, verify=False, proxies=proxies)
     soup = BeautifulSoup(r.text, 'html.parser')

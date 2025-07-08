@@ -9,7 +9,7 @@ description = "PortSwigger Lab Automation Tool"
 authors = [
     { name="Sneh", email="you@example.com" }
 ]
-dependencies = ["requests", "beautifulsoup4"]
+dependencies = ["requests", "beautifulsoup4", "prompt_toolkit", "colorama", "rich"]
 requires-python = ">=3.7"
 
 [project.scripts]

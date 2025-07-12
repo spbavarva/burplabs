@@ -3,17 +3,17 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "portswiggerlab"
+name = "burplabs"
 version = "0.1.0"
 description = "PortSwigger Lab Automation Tool"
 authors = [
-    { name="Sneh", email="you@example.com" }
+    { name="Sneh", email="bavarvasneh@gmail.com" }
 ]
 dependencies = ["requests", "beautifulsoup4", "prompt_toolkit", "colorama", "rich"]
 requires-python = ">=3.7"
 
 [project.scripts]
-portswiggerlab = "portswiggerlab.cli:main"
+burplabs = "burplabs.cli:main"
 
 [tool.setuptools]
 include-package-data = true

@@ -1,6 +1,6 @@
 import os, sys, argparse, importlib, pkgutil
 from collections import defaultdict
-from portswiggerlab import labs
+from burplabs import labs
 from prompt_toolkit import prompt
 from colorama import init, Fore, Style
 from rich.console import Console
@@ -19,14 +19,14 @@ def print_help():
     ))
 
     console.print("[bold yellow]Usage:[/bold yellow]")
-    console.print("  [green]portswiggerlab[/green] [cyan][--list-labs | --interactive | <lab>] [--url URL] [--payload PAYLOAD] [--proxy PROXY | --no-proxy][/cyan]\n")
+    console.print("  [green]burplabs[/green] [cyan][--list-labs | --interactive | <lab>] [--url URL] [--payload PAYLOAD] [--proxy PROXY | --no-proxy][/cyan]\n")
 
     console.print("[bold yellow]Examples:[/bold yellow]")
-    console.print("  [green]portswiggerlab --list-labs[/green]")
-    console.print("  [green]portswiggerlab sql_lab1 --url https://0afe006b046.web-security-academy.net --payload \"'+OR+1=1--\" --no-proxy[/green]")
-    console.print("  [green]portswiggerlab --interactive[/green] (then follow the steps)\n")
+    console.print("  [green]burplabs --list-labs[/green]")
+    console.print("  [green]burplabs sql_lab1 --url https://0afe006b046.web-security-academy.net --payload \"'+OR+1=1--\" --no-proxy[/green]")
+    console.print("  [green]burplabs --interactive[/green] (then follow the steps)\n")
 
-    console.print("[bold yellow]Attention:[/bold yellow]")
+    console.print("[bold yellow]ATTENTION:[/bold yellow]")
     console.print("  • Use [cyan]--no-proxy[/cyan] if you are not using Burp!")
     console.print("  • Use [cyan]--list-labs[/cyan] to see all available labs.\n")
 
@@ -42,7 +42,7 @@ def list_available_labs():
 
             # Import the module dynamically
             try:
-                module = importlib.import_module(f'portswiggerlab.labs.{lab_name}')
+                module = importlib.import_module(f'burplabs.labs.{lab_name}')
                 title = getattr(module, "LAB_NAME", "")
                 grouped.setdefault(category, []).append((lab_name, title))
             except Exception:
@@ -102,7 +102,7 @@ def main():
 
     # === Import and run selected lab
     try:
-        lab_module = importlib.import_module(f"portswiggerlab.labs.{args.lab}")
+        lab_module = importlib.import_module(f"burplabs.labs.{args.lab}")
         result = lab_module.run(args.url, args.payload, proxies)
         if result:
             print(Fore.GREEN + "[+] Lab solved successfully!" + Style.RESET_ALL)
@@ -121,7 +121,7 @@ def run_interactive_mode():
     available_labs = [name for _, name, _ in pkgutil.iter_modules(labs.__path__) if not name.startswith('_')]
     for i, lab in enumerate(available_labs, start=1):
         try:
-            module = importlib.import_module(f'portswiggerlab.labs.{lab}')
+            module = importlib.import_module(f'burplabs.labs.{lab}')
             title = getattr(module, "LAB_NAME", "")
             print(f"{i}. {lab} : {title}")
         except:
@@ -161,7 +161,7 @@ def run_interactive_mode():
     # Step 6: Run
     print(f"\n[>] Running {selected_lab} with payload: {payload}")
     try:
-        lab_module = importlib.import_module(f"portswiggerlab.labs.{selected_lab}")
+        lab_module = importlib.import_module(f"burplabs.labs.{selected_lab}")
         result = lab_module.run(url, payload, proxies)
         if result:
             print("[+] Lab solved successfully!")

@@ -1,1 +1,1 @@
-include portswiggerlab/labs/*.py
+include burplabs/labs/*.py

@@ -11,4 +11,4 @@ COPY . .
 RUN pip install --no-cache-dir .
 
 # Default command (can be overridden)
-ENTRYPOINT ["portswiggerlab"]
+ENTRYPOINT ["burplabs"]

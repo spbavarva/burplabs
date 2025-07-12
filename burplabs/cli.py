@@ -1,4 +1,9 @@
-import os, sys, argparse, importlib, pkgutil
+import os
+import sys
+import re
+import argparse
+import importlib
+import pkgutil
 from collections import defaultdict
 from burplabs import labs
 from prompt_toolkit import prompt
@@ -12,6 +17,7 @@ console = Console()
 init(autoreset=True)
 LABS_DIR = os.path.join(os.path.dirname(__file__), "labs")
 
+
 def print_help():
     console.print(Panel.fit(
         "[bold cyan]PortSwigger Labs Automation Toolkit[/bold cyan]",
@@ -19,18 +25,23 @@ def print_help():
     ))
 
     console.print("[bold yellow]Usage:[/bold yellow]")
-    console.print("  [green]burplabs[/green] [cyan][--list-labs | --interactive | <lab>] [--url URL] [--payload PAYLOAD] [--proxy PROXY | --no-proxy][/cyan]\n")
+    console.print(
+        "  [green]burplabs[/green] [cyan][--list-labs | --interactive | <lab>] [--url URL] [--payload PAYLOAD] [--proxy PROXY | --no-proxy][/cyan]\n")
 
     console.print("[bold yellow]Examples:[/bold yellow]")
     console.print("  [green]burplabs --list-labs[/green]")
-    console.print("  [green]burplabs sql_lab1 --url https://0afe006b046.web-security-academy.net --payload \"'+OR+1=1--\" --no-proxy[/green]")
-    console.print("  [green]burplabs --interactive[/green] (then follow the steps)\n")
+    console.print(
+        "  [green]burplabs sql_lab1 --url https://0afe006b046.web-security-academy.net --payload \"'+OR+1=1--\" --no-proxy[/green]")
+    console.print(
+        "  [green]burplabs --interactive[/green] (then follow the steps)\n")
 
     console.print("[bold yellow]ATTENTION:[/bold yellow]")
     console.print("  • Use [cyan]--no-proxy[/cyan] if you are not using Burp!")
-    console.print("  • Use [cyan]--list-labs[/cyan] to see all available labs.\n")
+    console.print(
+        "  • Use [cyan]--list-labs[/cyan] to see all available labs.\n")
 
     console.print("[bold magenta]Happy Hacking![/bold magenta]")
+
 
 def list_available_labs():
     print(Fore.YELLOW + "[*] Available Labs:\n" + Style.RESET_ALL)
@@ -60,10 +71,13 @@ def list_available_labs():
 def main():
     # === Global args ===
     global_parser = argparse.ArgumentParser(add_help=False)
-    global_parser.add_argument("--no-proxy", action="store_true", help="Disable proxy")
+    global_parser.add_argument(
+        "--no-proxy", action="store_true", help="Disable proxy")
     global_parser.add_argument("--proxy", help="Custom proxy URL")
-    global_parser.add_argument("--list-labs", action="store_true", help="List available labs and exit")
-    global_parser.add_argument("--interactive", action="store_true", help="Run in interactive mode")
+    global_parser.add_argument(
+        "--list-labs", action="store_true", help="List available labs and exit")
+    global_parser.add_argument(
+        "--interactive", action="store_true", help="Run in interactive mode")
 
     if '--help' in sys.argv or '-h' in sys.argv:
         print_help()
@@ -76,7 +90,7 @@ def main():
         return
 
     # === Full parser with subcommands
-    parser = argparse.ArgumentParser(add_help=False,parents=[global_parser])
+    parser = argparse.ArgumentParser(add_help=False, parents=[global_parser])
 
     parser.add_argument("lab", nargs="?", help="Lab to run (e.g., sql_lab1)")
     parser.add_argument("--url", help="Target URL")
@@ -105,11 +119,13 @@ def main():
         lab_module = importlib.import_module(f"burplabs.labs.{args.lab}")
         result = lab_module.run(args.url, args.payload, proxies)
         if result:
-            print(Fore.GREEN + "[+] Lab solved successfully!" + Style.RESET_ALL)
+            print(Fore.GREEN +
+                  "[+] Lab solved successfully!" + Style.RESET_ALL)
         else:
             print(Fore.RED + "[-] Lab exploit failed." + Style.RESET_ALL)
     except ModuleNotFoundError:
-        print(f"[!] Lab '{args.lab}' not found. Use --list-labs to see available labs.")
+        print(
+            f"[!] Lab '{args.lab}' not found. Use --list-labs to see available labs.")
     except AttributeError:
         print(f"[!] Lab '{args.lab}' does not have a 'run()' function.")
 
@@ -118,7 +134,15 @@ def run_interactive_mode():
     print("\n=== PortSwiggerLab Interactive Mode ===")
 
     # Step 1: List labs
-    available_labs = [name for _, name, _ in pkgutil.iter_modules(labs.__path__) if not name.startswith('_')]
+    def extract_lab_number(name):
+        match = re.search(r'lab(\d+)', name)
+        return int(match.group(1)) if match else float('inf')
+
+    available_labs = sorted(
+        [name for _, name, _ in pkgutil.iter_modules(
+            labs.__path__) if not name.startswith('_')],
+        key=extract_lab_number
+    )
     for i, lab in enumerate(available_labs, start=1):
         try:
             module = importlib.import_module(f'burplabs.labs.{lab}')
@@ -146,7 +170,8 @@ def run_interactive_mode():
     try:
         url = prompt("Target URL: ").strip()
         payload = prompt("Payload: ").strip()
-        use_proxy = prompt("Use Burp proxy (127.0.0.1:8080)? [Y/n]: ").lower().strip()
+        use_proxy = prompt(
+            "Use Burp proxy (127.0.0.1:8080)? [Y/n]: ").lower().strip()
     except KeyboardInterrupt:
         print("\n[!] Exiting interactive mode.")
         return

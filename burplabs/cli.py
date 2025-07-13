@@ -1,9 +1,4 @@
-import os
-import sys
-import re
-import argparse
-import importlib
-import pkgutil
+import os, sys, re, argparse, importlib, pkgutil
 from collections import defaultdict
 from burplabs import labs
 from prompt_toolkit import prompt
@@ -43,29 +38,30 @@ def print_help():
     console.print("[bold magenta]Happy Hacking![/bold magenta]")
 
 
+def extract_lab_number(lab_name):
+    match = re.search(r'lab(\d+)', lab_name)
+    return int(match.group(1)) if match else float('inf')
+
 def list_available_labs():
     print(Fore.YELLOW + "[*] Available Labs:\n" + Style.RESET_ALL)
     grouped = defaultdict(list)
-    for lab_file in os.listdir(LABS_DIR):
-        if lab_file.endswith(".py") and lab_file != "__init__.py":
-            lab_name = lab_file[:-3]
-            category = lab_name.split('_')[0].upper()
 
-            # Import the module dynamically
-            try:
-                module = importlib.import_module(f'burplabs.labs.{lab_name}')
-                title = getattr(module, "LAB_NAME", "")
-                grouped.setdefault(category, []).append((lab_name, title))
-            except Exception:
-                grouped.setdefault(category, []).append((lab_name, ""))
+    lab_files = [f for f in os.listdir(LABS_DIR) if f.endswith(".py") and f != "__init__.py"]
 
-    for category, labs in grouped.items():
+    for lab_file in lab_files:
+        lab_name = lab_file[:-3]
+        category = lab_name.split('_')[0].upper()
+        try:
+            module = importlib.import_module(f'burplabs.labs.{lab_name}')
+            title = getattr(module, "LAB_NAME", "")
+            grouped[category].append((lab_name, title))
+        except Exception:
+            grouped[category].append((lab_name, ""))
+
+    for category in sorted(grouped):
         print(f"{category}")
-        for lab_name, title in labs:
-            if title:
-                print(f"    - {lab_name} : {title}")
-            else:
-                print(f"    - {lab_name}")
+        for lab_name, title in sorted(grouped[category], key=lambda x: extract_lab_number(x[0])):
+            print(f"    - {lab_name} : {title}" if title else f"    - {lab_name}")
 
 
 def main():
@@ -133,60 +129,72 @@ def main():
 def run_interactive_mode():
     print("\n=== PortSwiggerLab Interactive Mode ===")
 
-    # Step 1: List labs
-    def extract_lab_number(name):
-        match = re.search(r'lab(\d+)', name)
-        return int(match.group(1)) if match else float('inf')
+    lab_base = labs.__path__[0]
 
+    # Step 1: Discover categories
+    excluded = {"__pycache__"}
+    categories = [f.name for f in os.scandir(lab_base) if f.is_dir() and f.name not in excluded]
+    categories.sort()
+
+    print("\nAvailable Categories:")
+    for idx, cat in enumerate(categories, start=1):
+        print(f"{idx}. {cat.upper()}")
+
+    # Step 2: Select category
+    try:
+        cat_index = int(prompt("\nSelect a category number: ")) - 1
+        selected_category = categories[cat_index]
+    except (ValueError, IndexError):
+        print("[!] Invalid category selection.")
+        return
+    except KeyboardInterrupt:
+        print("\n[!] Exiting interactive mode.")
+        return
+
+    # Step 3: List labs inside category
+    category_path = os.path.join(lab_base, selected_category)
     available_labs = sorted(
-        [name for _, name, _ in pkgutil.iter_modules(
-            labs.__path__) if not name.startswith('_')],
-        key=extract_lab_number
+        [name for _, name, _ in pkgutil.iter_modules([category_path]) if not name.startswith('_')],
+        key=lambda name: int(re.search(r'lab(\d+)', name).group(1)) if re.search(r'lab(\d+)', name) else float('inf')
     )
+
+    print(f"\n[{selected_category.upper()} Labs]")
     for i, lab in enumerate(available_labs, start=1):
         try:
-            module = importlib.import_module(f'burplabs.labs.{lab}')
+            module = importlib.import_module(f'burplabs.labs.{selected_category}.{lab}')
             title = getattr(module, "LAB_NAME", "")
             print(f"{i}. {lab} : {title}")
         except:
             print(f"{i}. {lab}")
 
-    # Step 2: Select lab
+    # Step 4: Select lab
     try:
-        while True:
-            try:
-                lab_index = int(prompt("\nSelect a lab number: ")) - 1
-                if 0 <= lab_index < len(available_labs):
-                    selected_lab = available_labs[lab_index]
-                    break
-                print("Invalid selection, try again.")
-            except ValueError:
-                print("Please enter a valid number.")
+        lab_index = int(prompt("\nSelect a lab number: ")) - 1
+        selected_lab = available_labs[lab_index]
+    except (ValueError, IndexError):
+        print("[!] Invalid lab selection.")
+        return
     except KeyboardInterrupt:
         print("\n[!] Exiting interactive mode.")
         return
 
-    # Step 3: Enter URL
+    # Step 5: URL + Payload + Proxy
     try:
         url = prompt("Target URL: ").strip()
-        payload = prompt("Payload: ").strip()
-        use_proxy = prompt(
-            "Use Burp proxy (127.0.0.1:8080)? [Y/n]: ").lower().strip()
+        payload = prompt("Payload: (Optional, Just skip it.) ").strip()
+        use_proxy = prompt("Use Burp proxy (127.0.0.1:8080)? [Y/n]: ").lower().strip()
     except KeyboardInterrupt:
         print("\n[!] Exiting interactive mode.")
         return
 
     proxies = None
     if use_proxy in ("", "y", "yes"):
-        proxies = {
-            "http": "http://127.0.0.1:8080",
-            "https": "http://127.0.0.1:8080"
-        }
+        proxies = {"http": "http://127.0.0.1:8080", "https": "http://127.0.0.1:8080"}
 
     # Step 6: Run
-    print(f"\n[>] Running {selected_lab} with payload: {payload}")
+    print(f"\n[>] Running {selected_lab} from {selected_category} with payload: {payload}")
     try:
-        lab_module = importlib.import_module(f"burplabs.labs.{selected_lab}")
+        lab_module = importlib.import_module(f"burplabs.labs.{selected_category}.{selected_lab}")
         result = lab_module.run(url, payload, proxies)
         if result:
             print("[+] Lab solved successfully!")

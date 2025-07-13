@@ -27,6 +27,7 @@ def run(url, payload=None, proxies=None):
         }
 
         response = session.post(url.rstrip('/') + "/post/comment", data=data)
+        r = requests.get(url.rstrip('/') + "/post?postId=1")
         return "Congratulations, you solved the lab!" in response.text or response.status_code == 200
 
     except Exception as e:

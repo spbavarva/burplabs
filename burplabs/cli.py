@@ -181,6 +181,8 @@ def run_interactive_mode():
     # Step 5: URL + Payload + Proxy
     try:
         url = prompt("Target URL: ").strip()
+        if not url.startswith("http"):
+            url = "https://" + url
         payload = prompt("Payload: (Optional, Just skip it.) ").strip()
         use_proxy = prompt("Use Burp proxy (127.0.0.1:8080)? [Y/n]: ").lower().strip()
     except KeyboardInterrupt:

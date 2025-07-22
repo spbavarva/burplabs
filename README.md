@@ -51,6 +51,8 @@ pip install .
 burplabs -h
 ```
 
+![burplabs help](burplabs-help.png)
+
 ### List All Available Labs
 
 ```bash

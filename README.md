@@ -91,7 +91,7 @@ portswiggerlab sql_lab3 --url ... --payload ...
 
 Credit to Rana Khalil for inspiring me for this!
 
-Built by [Sneh](https://github.com/spbavarva)
+Built by [Sneh aka mystic_mido](https://github.com/spbavarva)
 Portfolio: [snehbavarva.com](https://www.snehbavarva.com)
 If you like it, give it a ⭐ on GitHub!
 

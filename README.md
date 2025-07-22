@@ -1,5 +1,3 @@
-Generated from GPT for now!
-
 # Burplabs
 
 **burplabs** is a modular, Python-based CLI tool that automates solving labs from [PortSwigger Web Security Academy](https://portswigger.net/web-security).  
@@ -25,9 +23,11 @@ I know this not something new but this helped me to get better with Python Scrip
 
 ### Option 1: Install via pip (recommended)
 
-```bash
-python3 -m venv burplabs-venv
-source ./.burplabs-venv/scripts/activate
+Windows
+
+```powershell
+python -m venv burplabs-venv
+.\burplabs-venv\scripts\Activate.ps1
 pip install burplabs
 ```
 
@@ -63,6 +63,9 @@ burplabs --interactive
 and then just follow the steps. You can even enter custom proxy when it prompts or if you want to use burp proxy then just open burp and hit 'Y' when it prompts for default proxy to get requests on your burp.
 
 Or you can hit 'n' when it prompts and you don't need to open burp at all.
+
+![Interactive Mode](interactive-mode.png)
+
 
 ---
 

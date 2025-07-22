@@ -5,6 +5,8 @@ Its like like `netexec`, but made for web apps.
 
 ---
 
+It currently has **113/269** labs and I am adding rest of the labs daily.
+
 I know this not something new but this helped me to get better with Python Scripting and I adjusted many other things. I recommend to try this when you know how lab is solved and just want to solve it. Please do not use this before understanding the concepts.
 
 ## Features
@@ -18,8 +20,6 @@ I know this not something new but this helped me to get better with Python Scrip
 ---
 
 ## Installation
-
-(More options will be added)
 
 ### Option 1: Install via pip (recommended)
 
@@ -38,6 +38,8 @@ git clone https://github.com/spbavarva/portswigger-labs-scripts.git
 cd portswiggerlab
 pip install .
 ```
+
+(Docker will be added soon)
 
 ---
 
@@ -83,40 +85,16 @@ portswiggerlab sql_lab3 --url ... --payload ...
 
 ---
 
-## Docker Support
-
-Build the image:
-
-```bash
-docker build -t portswiggerlab .
-```
-
-Run it:
-
-```bash
-docker run --rm portswiggerlab sql_lab1 --url ... --payload ... --no-proxy
-```
-
----
-
-## ✨ Example Output
-
-```bash
-portswiggerlab sql_lab2 --url https://target/login --payload "administrator'--" --no-proxy
-
-[+] Lab solved successfully!
-```
-
----
-
 ## Author
 
-Built with 🔥 by [Sneh](https://github.com/spbavarva)
+Credit to Rana Khalil for inspiring me for this!
+
+Built by [Sneh](https://github.com/spbavarva)
 Portfolio: [snehbavarva.com](https://www.snehbavarva.com)
 If you like it, give it a ⭐ on GitHub!
 
 ---
 
-## 📜 License
+## License
 
 MIT License

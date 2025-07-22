@@ -1,34 +1,37 @@
 Generated from GPT for now!
 
-# PortSwiggerLab
+# Burplabs
 
-**PortSwiggerLab** is a modular, Python-based CLI tool that automates solving labs from [PortSwigger Web Security Academy](https://portswigger.net/web-security).  
-Think of it like `netexec`, but made for web app hacking.
-
----
-
-## 🔧 Features
-
-- 🚀 CLI interface for quickly solving labs
-- 🧱 Modular architecture – each lab is a standalone Python file
-- 🧠 Auto-discovery of all labs via `--list-labs`
-- 🌐 Proxy support (`--proxy`, `--no-proxy`)
-- 🐳 Docker-compatible
-- 🔄 Easily extensible – add your own labs!
+**burplabs** is a modular, Python-based CLI tool that automates solving labs from [PortSwigger Web Security Academy](https://portswigger.net/web-security).  
+Its like like `netexec`, but made for web apps.
 
 ---
 
-## 📦 Installation
+I know this not something new but this helped me to get better with Python Scripting and I adjusted many other things. I recommend to try this when you know how lab is solved and just want to solve it. Please do not use this before understanding the concepts.
+
+## Features
+
+- CLI interface
+- Modular architecture – each lab is a standalone Python file
+- Custom Proxy and No Proxy also support (`--proxy`, `--no-proxy`)
+- Docker-compatible
+- Easily extensible - add your own code if you want!
+
+---
+
+## Installation
 
 (More options will be added)
 
-### 🔹 Option 1: Install from GitHub (recommended)
+### Option 1: Install via pip (recommended)
 
 ```bash
-pip install git+https://github.com/spbavarva/portswigger-labs-scripts.git
-````
+python3 -m venv burplabs-venv
+source ./.burplabs-venv/scripts/activate
+pip install burplabs
+```
 
-### 🔹 Option 2: Clone and Install Locally
+### Option 2: Git clone
 
 ```bash
 git clone https://github.com/spbavarva/portswigger-labs-scripts.git
@@ -38,45 +41,36 @@ pip install .
 
 ---
 
-## 🧪 Usage
+## Usage
 
-### 🔹 View Help
-
-```bash
-portswiggerlab -h
-```
-
-### 🔹 List All Available Labs
+### View Help
 
 ```bash
-portswiggerlab --list-labs
+burplabs -h
 ```
 
-### 🔹 Solve a Lab
+### List All Available Labs
 
 ```bash
-portswiggerlab sql_lab1 --url https://example.net/filter?category= --payload "'+OR+1=1--"
+burplabs --list-labs
 ```
 
-### 🔹 Disable Proxy
+### Interactive Mode
 
 ```bash
-portswiggerlab sql_lab1 --url https://... --payload "..." --no-proxy
+burplabs --interactive
 ```
+and then just follow the steps. You can even enter custom proxy when it prompts or if you want to use burp proxy then just open burp and hit 'Y' when it prompts for default proxy to get requests on your burp.
 
-### 🔹 Use Custom Proxy
-
-```bash
-portswiggerlab sql_lab1 --url https://... --payload "..." --proxy http://127.0.0.1:8081
-```
+Or you can hit 'n' when it prompts and you don't need to open burp at all.
 
 ---
 
-## 🧩 Adding New Labs
+## Adding New Labs
 
 To add a new lab:
 
-1. Create a new file in `portswiggerlab/labs/`, e.g. `sql_lab3.py`
+1. Create a new file in `burplabs/labs/name-of-the-folder`, e.g. `sql_lab3.py`
 2. It must define a `run(url, payload, proxies=None)` function
 3. That’s it! The lab will be auto-detected and usable like:
 
@@ -86,7 +80,7 @@ portswiggerlab sql_lab3 --url ... --payload ...
 
 ---
 
-## 🐳 Docker Support
+## Docker Support
 
 Build the image:
 
@@ -112,9 +106,10 @@ portswiggerlab sql_lab2 --url https://target/login --payload "administrator'--" 
 
 ---
 
-## 🧠 Author
+## Author
 
-Built with 🔥 by [Sneh](https://github.com/YOUR_USERNAME)
+Built with 🔥 by [Sneh](https://github.com/spbavarva)
+Portfolio: [snehbavarva.com](https://www.snehbavarva.com)
 If you like it, give it a ⭐ on GitHub!
 
 ---

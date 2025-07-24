@@ -3,6 +3,8 @@
 **burplabs** is a modular, Python-based CLI tool that automates solving labs from [PortSwigger Web Security Academy](https://portswigger.net/web-security).  
 Its like like `netexec`, but made for web apps.
 
+Basically, this is a python package named 'burplabs' which is an PortSwigger's Web Security Academy labs soluction in the form of python script. Each script includes the lab's name, proxy settings, and step-by-step solution, as well as any additional notes. 
+
 ---
 
 It currently has **113/269** labs and I am adding rest of the labs daily.
@@ -87,13 +89,13 @@ portswiggerlab sql_lab3 --url ... --payload ...
 
 ---
 
-## Author
+## Author and Support
 
 Credit to Rana Khalil for inspiring me for this!
 
 Built by [Sneh aka mystic_mido](https://github.com/spbavarva)
 Portfolio: [snehbavarva.com](https://www.snehbavarva.com)
-If you like it, give it a ⭐ on GitHub!
+If you like it, give it a ⭐ on GitHub! That will really helps a lot to motivate me and show the significance of this small project. Thank you!
 
 ---
 

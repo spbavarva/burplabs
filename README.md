@@ -87,7 +87,6 @@ To add a new lab:
 portswiggerlab sql_lab3 --url ... --payload ...
 ```
 
----
 
 ## Author and Support
 
@@ -97,7 +96,6 @@ Built by [Sneh aka mystic_mido](https://github.com/spbavarva)
 Portfolio: [snehbavarva.com](https://www.snehbavarva.com)
 If you like it, give it a ⭐ on GitHub! That will really helps a lot to motivate me and show the significance of this small project. Thank you!
 
----
 
 ## License
 

@@ -1,3 +1,5 @@
 include burplabs/labs/*.py
 include usernames.txt
 include passwords.txt
+include burplabs/labs/usernames.txt
+include burplabs/labs/passwords.txt

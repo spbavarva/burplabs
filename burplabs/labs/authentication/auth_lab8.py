@@ -1,3 +1,6 @@
+import os
+import importlib.resources as pkg_resources
+from pathlib import Path
 import pkgutil
 import requests
 import urllib3
@@ -13,11 +16,17 @@ SCRIPT_START_TIME = time.time()
 
 def read_list(filename):
     try:
-        data = pkgutil.get_data('burplabs', filename)
-        return data.decode().splitlines()
-    except Exception as e:
-        print(f"[!] Failed to read {filename}: {e}")
-        exit(1)
+        # Try local read (for development)
+        with open(filename, 'rt', encoding='utf-8') as f:
+            return f.read().splitlines()
+    except FileNotFoundError:
+        try:
+            # Fallback for installed package (pip)
+            data = pkgutil.get_data("burplabs", f"labs/{filename}")
+            return data.decode().splitlines()
+        except Exception as e:
+            print(Fore.RED + f"[!] Failed to read {filename}: {e}")
+            exit(1)
 
 
 def print_progress(counter, total_counts, text):

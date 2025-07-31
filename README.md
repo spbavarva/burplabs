@@ -25,7 +25,7 @@ This not something new but this helped me to get better with Python Scripting an
 
 ### Option 1: Install via pip (recommended)
 
-Windows
+Windows (powershell)
 
 ```powershell
 python -m venv burplabs-venv

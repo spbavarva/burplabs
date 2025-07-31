@@ -13,6 +13,9 @@ def print_progress(step, msg, status="..."):
 
 def run(url, payload, proxies=None):
     lab_url = url.rstrip("/")
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Post a comment with a malicious XSS payload\n2. Fetch the exploit sever logs\n3. Extract the encoded cookie from logs\n4. Decode the encoded cookie\n5. Crack this hash using any online hash cracker\n""")
+
     exploit_url = input("[?] Enter the exploit server URL: ").strip()
 
     session = requests.Session()

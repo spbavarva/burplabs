@@ -9,6 +9,9 @@ LAB_NAME = "Authentication bypass via information disclosure"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch the login page\n2. Extract the session and the csrf token\n3. Login as wiener\n4. Extract the new session\n5. Delete carlos from the admin panel bypassing access using a custom header\n""")
+
     url = url.rstrip('/')
 
     print("[1] Fetching the login page")

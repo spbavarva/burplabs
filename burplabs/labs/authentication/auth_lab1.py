@@ -84,6 +84,9 @@ def brute_force_password(valid_user, passwords, url, proxies):
 
 def run(url, payload, proxies=None):
     url = url.rstrip('/')
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Read usernames and passwords lists\n2. Try to find a valid username via different error messages\n3. Brute force the password of that valid username\n4. Login with the valid credentials\n""")
+
     print(Fore.WHITE + "[1] Reading usernames list..")
 
     usernames_list = read_list("usernames.txt")

@@ -1,3 +1,4 @@
+from colorama import Fore
 import requests
 import urllib3
 from colorama import Fore
@@ -8,6 +9,8 @@ LAB_NAME = "Blind SQL injection with out-of-band data exfiltration"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'TrackingId' cookie to extract administrator password via DNS lookup\n2. Get the administrator password from your burp collaborator\n3. Login as administrator\n""")
 
     # Prompt for collaborator domain
     collaborator = input(

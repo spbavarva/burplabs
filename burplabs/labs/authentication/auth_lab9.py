@@ -10,6 +10,9 @@ SCRIPT_START_TIME = time.time()
 
 def run(url, payload=None, proxies=None):
     url = url.rstrip("/")
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Read password list\n2. Hash every the password\n3. Encrypt every tha hash with the username in the cookie\n4. Fetch carlos profile with every encrypted cookie\n""")
+
     print("[1] Reading password list.. ", end="", flush=True)
 
     try:

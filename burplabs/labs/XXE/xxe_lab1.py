@@ -9,6 +9,9 @@ LAB_NAME = "Exploiting XXE using external entities to retrieve files"
 
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Use an external entity to retrieve the content of /etc/passwd\n2. Extract the first line as a proof\n""")
+
     url = url.rstrip('/')
     print(Fore.WHITE + "[+] Using an external entity to retrieve the content of /etc/passwd")
 

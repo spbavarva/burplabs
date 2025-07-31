@@ -1,3 +1,4 @@
+from colorama import Fore
 import requests
 import urllib3
 from colorama import Fore
@@ -7,6 +8,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 LAB_NAME = "Blind SQL injection with out-of-band interaction"
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'TrackingId' cookie to make a DNS lookup to your burp collaborator domain\n2. Check your collaborator for incoming traffic\n""")
     
     # Prompt for collaborator domain
     collaborator = input(Fore.YELLOW + "[?] Enter your Burp Collaborator domain: ").strip()

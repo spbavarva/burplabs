@@ -9,6 +9,9 @@ LAB_NAME = "Exploiting XXE to perform SSRF attacks"
 
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'productId' XML element to retrieve the path via SSRF\n2. Extract the path from the response\n3. Repeat the process with the new extracted path until you fetch the admin information\n""")
+
     url = url.rstrip('/')
     paths = ["/"]
     headers = { "Content-Type": "application/xml" }

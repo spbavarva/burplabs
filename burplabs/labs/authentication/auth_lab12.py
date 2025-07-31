@@ -8,6 +8,8 @@ SCRIPT_START_TIME = time.time()
 
 def run(url, payload=None, proxies=None):
     url = url.rstrip('/')
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Read password list\n2. Brute force carlos password via password change functionality and change his password (login as wiener before every try to bypass blocking)\n3. Wait 1 minute to bypass blocking\n4.Login as carlos with the new password\n""")
 
     print("[1] Reading password list.. ", end="", flush=True)
     password_list = read_password_list("passwords.txt")

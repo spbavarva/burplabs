@@ -6,6 +6,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 LAB_NAME = "CORS vulnerability with trusted null origin"
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Deliver the exploit to the victim\n2. Fetch the exploit server log page\n3. Extract the administrator's API key from the logs\n4. Submit the solution\n""")
+    
     response_head = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8"
     url = url.rstrip('/')
     user_input = input("[?] Enter the exploit server URL: ").strip()

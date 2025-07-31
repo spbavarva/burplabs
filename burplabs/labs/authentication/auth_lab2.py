@@ -7,8 +7,12 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "2FA simple bypass"
 
+
 def run(url, payload, proxies=None):
     url = url.rstrip('/')
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Login as carlos\n2. Get the session cookie\n3. Fetch the profile page directly bypassing 2FA\n4. Extract the name 'carlos' to make sure you logged in as him\n""")
+
     print(Fore.WHITE + "[1] Logging in as carlos..")
 
     data = {"username": "carlos", "password": "montoya"}

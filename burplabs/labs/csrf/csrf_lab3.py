@@ -1,6 +1,8 @@
 import requests
 import re
 import urllib3
+from colorama import Fore
+
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -15,6 +17,9 @@ def post_data(url, data):
 
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Craft an HTML form for changing the email address with an auto-submit script and doesn't include the csrf token in the form\n2. Deliver the exploit to the victim\n3. The victim's email will be changed after they trigger the exploit\n""")
+
     session = requests.Session()
     session.proxies = proxies or {}
     session.verify = False

@@ -1,3 +1,4 @@
+from colorama import Fore
 import requests
 from colorama import Fore
 import re
@@ -8,6 +9,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 LAB_NAME = "SQL injection with filter bypass via XML encoding"
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into storeId XML element to retrieve administrator password using UNION-based attack\n2. Extract administrator password from the response body\n3. Fetch the login page\n4. Extract the csrf token and session cookie\n5. Login as the administrator\n6. Fetch the administrator profile\n""")
+
     session = requests.Session()
     session.proxies = proxies or {}
     session.verify = False

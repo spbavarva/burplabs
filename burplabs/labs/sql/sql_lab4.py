@@ -2,12 +2,16 @@ import requests
 import urllib3
 from bs4 import BeautifulSoup
 import re
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "SQL injection attack, querying the database type and version on MySQL and Microsoft"
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'category' query parameter\n2. Observe that the database version is returned in the response\n""")
+
     """
     Executes SQL Injection Lab 4 to extract DB version on MySQL
 

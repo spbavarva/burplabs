@@ -1,3 +1,4 @@
+from colorama import Fore
 import requests
 import urllib3
 import urllib.parse
@@ -69,4 +70,7 @@ def sqli_password(url, proxies=None):
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'TrackingId' cookie to determine the length of administrator's password based on time delays\n2. Modify the payload to brute force the administrator's password\n3. Fetch the login page\n4. Extract the csrf token and session cookie\n5. Login as the administrator\n6. Fetch the administrator profile\n""")
+
     return sqli_password(url, proxies)

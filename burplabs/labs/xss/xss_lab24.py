@@ -1,12 +1,16 @@
 import requests
 import re
 import urllib3
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "Exploiting XSS to perform CSRF"
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch a post page\n2. Extract the session cookie and the csrf token to post a comment\n3. Post a comment with the injected payload in the comment field\n""")
+
     session = requests.Session()
     session.proxies = proxies or {}
     session.verify = False

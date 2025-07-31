@@ -9,6 +9,9 @@ LAB_NAME = "Information disclosure on debug page"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch a product page\n2. Extract the debug path\n3. Fetch the debug path\n4. Extract the secret key\n5. Submit the solution\n""")
+
     url = url.rstrip('/')
 
     print("[1] Checking the source code")

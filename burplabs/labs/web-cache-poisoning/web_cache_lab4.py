@@ -9,6 +9,9 @@ LAB_NAME = "Targeted web cache poisoning using an unknown header"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch a post page\n2. Extract the session cookie and the csrf token to post a comment\n3. Post a comment with a payload to get the User Agent of the victim\n4. Wait until the victim view comments to extract their User-Agent from server logs\n5. Store the malicious javascript file on your exploit server\n6. Poison the main page for specific subset of users\n""")
+
     url = url.rstrip('/')
     exploit_input = input(
         Fore.YELLOW + "[?] Enter the exploit server URL: " + Fore.WHITE).strip()

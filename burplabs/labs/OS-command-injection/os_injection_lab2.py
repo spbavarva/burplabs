@@ -9,6 +9,9 @@ LAB_NAME = "Blind OS command injection with time delays"
 
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch the feedback page\n2. Extract the csrf token and session cookie\n3. Inject payload into the name field when submitting a feedback to cause a 10 second delay\n4. Wait for the response\n""")
+
     session = requests.Session()
     session.proxies = proxies or {}
     session.verify = False

@@ -1,6 +1,8 @@
 import requests
 import re
 import urllib3
+from colorama import Fore
+
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -18,6 +20,9 @@ def post_data(url, data, cookies=None, allow_redirects=True):
         return None
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch the login page\n2. Extract the csrf token, session cookie and csrfKey cookie\n3. Login as wiener\n4. Fetch wiener profile\n5. Extract the csrf token that is needed for email update\n6. Craft an HTML form for changing the email address that includes the extracted csrf token and an img tag which is used to set the csrfKey cookie via its src and submit the form via its error handler\n7. Deliver the exploit to the victim\n8. The victim's email will be changed after they trigger the exploit\n""")
+
     url = url.rstrip('/')
     session = requests.Session()
     session.proxies = proxies or {}

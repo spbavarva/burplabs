@@ -38,6 +38,9 @@ def brute_force_mfa_code(cookies, session, url):
 
 def run(url, payload, proxies=None):
     url = url.rstrip('/')
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Obtain a valid session\n2. Fetch the login2 page\n3. Start brute forcing the mfa-code of carlos\n4. Fetch carlos profile\n""")
+
     session = requests.Session()
     session.proxies = proxies or {}
     session.verify = False

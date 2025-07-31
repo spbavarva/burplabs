@@ -9,6 +9,9 @@ LAB_NAME = "Source code disclosure via backup files"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch the robots.txt file\n2. Search for hidden paths\n3. Fetch the hidden path\n4. Extract the path to the backup file\n5. Fetch the backup files\n6. Extract the secret key\n7. Submit the solution\n""")
+
     url = url.rstrip('/')
 
     print("[1] Fetching the robots.txt file")

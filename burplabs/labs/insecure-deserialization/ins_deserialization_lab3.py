@@ -11,6 +11,9 @@ LAB_NAME = "Using application functionality to exploit insecure deserialization"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Login as wiener\n2. Decode the session and extracting the access token\n3. Encode the serialized object after modifying\n4. Delete account using the modified object\n""")
+
     url = url.rstrip('/')
 
     print("[1] FetLogging in as wiener")

@@ -2,6 +2,7 @@ import requests
 import sys
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from colorama import Fore
 
 LAB_NAME = "SQL injection UNION attack, finding a column containing text"
 
@@ -35,6 +36,9 @@ def get_string_field(url, num_col, proxies):
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'category' query parameter to determine the number of columns\n2. Add one additional null column at a time\n3. Repeat this process, increasing the number of columns until you receive a valid response\n4. After determining the number of columns, replace each column with the desired text one at a time.\n5. Repeat this process until you receive a valid response.\n""")
+
     print("[+] Figuring out number of columns...")
     num_col = sqli_column_number(url, proxies)
     if num_col:

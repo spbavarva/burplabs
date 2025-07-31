@@ -7,6 +7,8 @@ NEW_CARLOS_PASSWORD = "mystic_mido"
 
 def run(url, payload=None, proxies=None):
     url = url.rstrip('/')
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Make forgot-password request as wiener\n2. Extract the token from the email client\n3. Change carlos password with the obtained token\n4. Login as carlos with the new password\n5. Fetch carlos profile\n""")
     
     exploit_input = input(Fore.YELLOW + "[?] Enter your Exploit Server URL: " + Fore.WHITE).strip()
     # Remove /email if the user includes it accidentally

@@ -8,6 +8,9 @@ NEW_CARLOS_PASSWORD = "mystic_mido"
 
 def run(url, payload=None, proxies=None):
     url = url.rstrip('/')
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Read password list\n2. Brute force carlos password (login with as wiener before each try to bypass blocking)\n3. Fetch carlos profile\n""")
+
     print("⦗1⦘ Reading password list.. ", end="", flush=True)
 
     password_list = read_password_list("passwords.txt")

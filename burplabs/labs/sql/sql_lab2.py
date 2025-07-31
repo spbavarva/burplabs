@@ -1,6 +1,7 @@
 import requests
 import urllib3
 from bs4 import BeautifulSoup
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -8,6 +9,9 @@ LAB_NAME = "SQL injection vulnerability allowing login bypass"
 
 
 def get_csrf_token(session, url, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch the login page\n2. Extract the csrf token and session cookie\n3. Inject the payload and bypass password check\n4. Login in as administrator\n""")
+
     r = session.get(url + "/login", verify=False, proxies=proxies)
     soup = BeautifulSoup(r.text, 'html.parser')
     input_tag = soup.find("input", attrs={"name": "csrf"})

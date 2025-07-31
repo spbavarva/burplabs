@@ -5,6 +5,9 @@ import re
 LAB_NAME = "Information disclosure in version control history"
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch the .git directory\n2. Reset to the previous commit\n3. Get the administrator password from the admin.conf file\n4. Login as administrator\n5. Delete carlos\n""")
+
     url = url.rstrip('/')
     domain = url.replace("https://", "")
     base = f"{url}/.git"

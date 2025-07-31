@@ -8,6 +8,9 @@ LAB_NAME = "Web cache poisoning via a fat GET request"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into the body of the request\n2. Send multiple request to the geolocate.js file to cache it with the injected payload\n""")
+
     url = url.rstrip('/')
 
     payload = """alert(1);setCountryCookie"""

@@ -9,6 +9,9 @@ LAB_NAME = "Web cache poisoning with an unkeyed header"
 
 def run(url, payload=None, proxies=None):
     url = url.rstrip('/')
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Store the malicious javascript file on your expoit server\n2. Send multiple request to the main page with an unkeyed header pointing to your exploit server\n""")
+
     exploit_input = input(
         Fore.YELLOW + "[?] Enter the exploit server URL: " + Fore.WHITE).strip()
     exploit_url = exploit_input.rstrip('/')

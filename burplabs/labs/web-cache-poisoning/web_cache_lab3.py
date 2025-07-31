@@ -8,6 +8,9 @@ LAB_NAME = "Web cache poisoning with multiple headers"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Store the malicious javascript file on your expoit server\n2. Send multiple request to the tracking.js file with multiple headers, one causes a redirect and the other makes the redirect point to your exploit server\n3. The main page will be poisoned as it request the tracking.js file\n""")
+
     url = url.rstrip('/')
     exploit_input = input(
         Fore.YELLOW + "[?] Enter the exploit server URL: " + Fore.WHITE).strip()

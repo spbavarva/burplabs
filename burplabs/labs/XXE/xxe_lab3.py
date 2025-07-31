@@ -7,6 +7,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 LAB_NAME = "Blind XXE with out-of-band interaction"
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Use an external entity to issue a DNS lookup to burp collaborator\n2. Check your burp collaborator for the DNS lookup\n""")
+
     url = url.rstrip('/')
     paths = ["/"]
     headers = {"Content-Type": "application/xml"}

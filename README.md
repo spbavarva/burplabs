@@ -7,9 +7,9 @@ Basically, this is a python package named 'burplabs' which is an PortSwigger's W
 
 ---
 
-It currently has **113/269** labs and I am adding rest of the labs daily.
+It currently has **148/230** labs (excluding expert labs) and I am adding rest of the labs daily.
 
-I know this not something new but this helped me to get better with Python Scripting and I adjusted many other things. I recommend to try this when you know how lab is solved and just want to solve it. Please do not use this before understanding the concepts.
+This not something new but this helped me to get better with Python Scripting and I adjusted many other things. I recommend to try this when you know how lab is solved and just want to solve it. Please do not use this before understanding the concepts.
 
 ## Features
 

@@ -1,6 +1,7 @@
 import requests
 import urllib.parse
 import urllib3
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -48,5 +49,8 @@ def blind_sqli_check(url, proxies=None):
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'TrackingId' cookie to cause a 10 seconds delay\n2. Wait for the response\n""")
+
     print("[*] Running blind SQLi time delay check...")
     return blind_sqli_check(url, proxies)

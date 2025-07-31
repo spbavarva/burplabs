@@ -9,6 +9,9 @@ LAB_NAME = "Information disclosure in error messages"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Inject a single quote in the productId parameter to cause an error\n2. Extract the framework name\n3. Submit the solution\n""")
+
     url = url.rstrip('/')
 
     print("[1] Injecting a single quote in the productId parameter to cause an error")

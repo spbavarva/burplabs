@@ -9,6 +9,9 @@ LAB_NAME = "Arbitrary object injection in PHP"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Encoding the serialized object after modifying\n2. Fetching the home page with the modified object as session to delete the morale.txt file\n""")
+
     url = url.rstrip('/')
 
     print("[1] Encoding the serialized object after modifying")

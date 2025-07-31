@@ -78,6 +78,9 @@ def brute_force_password(session, valid_user, passwords, url):
 
 def run(url, payload, proxies=None):
     url = url.rstrip('/')
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Read usernames and passwords lists\n2. Change X-Forwarded-For header to a random IP in every request to bypass blocking\n3. Try to find a valid username via response timing\n4. Brute force the password of that valid username\n5. Login with the valid credentials\n""")
+
     session = requests.Session()
     session.proxies = proxies or {}
     session.verify = False

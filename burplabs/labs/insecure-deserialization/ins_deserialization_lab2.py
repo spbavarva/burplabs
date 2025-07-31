@@ -9,6 +9,9 @@ LAB_NAME = "Modifying serialized data types"
 
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Encode the serialized object after modifying\n2. Delete carlos from the admin panel with the modified object as session\n""")
+    
     url = url.rstrip('/')
 
     print("[1] Encoding the serialized object after modifying")

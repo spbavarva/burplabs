@@ -8,6 +8,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 LAB_NAME = "Blind OS command injection with out-of-band data exfiltration"
 
 def run(url, payload=None, proxies=None):
+    print(Fore.YELLOW + f"Steps to solve the lab:")
+    print(Fore.WHITE + f"""1. Fetch the feedback page\n2. Extract the csrf token and session cookie\n3. Inject payload into the name field when submitting a feedback to execute the `whoami` command and exfiltrate the output via a DNS query to burp collaborator.\n4. Check your burp collaborator for the output of the `whoami` command\n""")
+
     session = requests.Session()
     session.proxies = proxies or {}
     session.verify = False

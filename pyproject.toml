@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "burplabs"
-version = "0.2.0"
+version = "0.2.4"
 description = "PortSwigger Lab Automation Tool"
 readme = {file = "README.md", content-type = "text/markdown"}
 authors = [{ name = "Sneh", email = "bavarvasneh@gmail.com" }]
